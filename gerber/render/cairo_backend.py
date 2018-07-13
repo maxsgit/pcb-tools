@@ -75,6 +75,7 @@ class GerberCairoContext(GerberContext):
             self.surface_buffer = tempfile.NamedTemporaryFile()
             self.surface = cairo.SVGSurface(self.surface_buffer, size_in_pixels[0], size_in_pixels[1])
             self.output_ctx = cairo.Context(self.surface)
+            self.output_ctx.set_antialias(cairo.ANTIALIAS_NONE)
 
     def render_layer(self, layer, filename=None, settings=None, bgsettings=None,
                      verbose=False, bounds=None):
@@ -180,6 +181,7 @@ class GerberCairoContext(GerberContext):
                 msk.surface = cairo.SVGSurface(None, size_in_pixels[0],
                                                size_in_pixels[1])
                 msk.ctx = cairo.Context(msk.surface)
+                msk.ctx.set_antialias(cairo.ANTIALIAS_NONE)
                 msk.ctx.translate(-self.origin_in_pixels[0], -self.origin_in_pixels[1])
                 return msk
 
@@ -535,6 +537,7 @@ class GerberCairoContext(GerberContext):
         matrix = copy.copy(self._xform_matrix)
         layer = cairo.SVGSurface(None, size_in_pixels[0], size_in_pixels[1])
         ctx = cairo.Context(layer)
+        ctx.set_antialias(cairo.ANTIALIAS_NONE)
 
         if self.invert:
             ctx.set_source_rgba(0.0, 0.0, 0.0, 1.0)
